@@ -158,7 +158,7 @@ async def handle_passport_button(call: types.CallbackQuery):
     # Создаем клавиатуру с кнопкой, открывающей веб-приложение
     markup = types.ReplyKeyboardMarkup(
         keyboard=[
-            [types.KeyboardButton(text='Открыть список оборудования', web_app=WebAppInfo(url='https://www.deepseek.com/'))]
+            [types.KeyboardButton(text='Открыть список оборудования', web_app=WebAppInfo(url='https://qesixxx.github.io/bot/'))]
         ],
         resize_keyboard=True  # Опционально: автоматическое изменение размера клавиатуры
     )
