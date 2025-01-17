@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
@@ -57,20 +58,20 @@
     /* Мобильная версия */
     @media (max-width: 768px) {
       .registration-form {
-        width: 80vw; /* Ширина формы увеличивается для мобильных устройств */
-        padding: 15px; /* Уменьшаем внутренние отступы */
+        width: 80vw;
+        padding: 15px;
       }
       .registration-form input {
-        padding: 10px; /* Увеличиваем padding для удобства на мобильных */
-        margin: 10px 0; /* Увеличиваем отступы */
+        padding: 10px;
+        margin: 10px 0;
       }
       .registration-form button {
-        padding: 12px; /* Увеличиваем padding для кнопки */
-        font-size: 14px; /* Уменьшаем размер шрифта */
-        letter-spacing: 0.3vh; /* Уменьшаем расстояние между буквами */
+        padding: 12px;
+        font-size: 14px;
+        letter-spacing: 0.3vh;
       }
       .title h2 {
-        font-size: 20px; /* Уменьшаем размер заголовка */
+        font-size: 20px;
       }
     }
   </style>
@@ -80,10 +81,13 @@
     <div class="title">
       <h2>Авторизация</h2>
     </div>
-    <form id="registrationForm">
-      <input type="email" placeholder="Логин" required>
-      <input type="password" placeholder="Пароль" required>
-      <button type="submit">Войти в аккаунт</button>
+
+    <form method="post">
+  {% csrf_token %}
+  <input type="email" name="email" placeholder="Логин" required>
+  <input type="password" name="password" placeholder="Пароль" required>
+  <button type="submit">Войти в аккаунт</button>
+
     </form>
   </div>
   <!--авторизация-->
