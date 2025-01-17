@@ -12,6 +12,7 @@
       align-items: center;
       height: 100vh;
       background-color: #f4f4f4;
+      margin: 0; /* Убираем отступы по умолчанию */
     }
     .registration-form {
       background: #fff;
@@ -22,12 +23,12 @@
       text-align: center;
     }
     .registration-form input {
-        width: calc(100% - 20px); 
-      padding: 8px; 
-      margin: 8px 0; 
+      width: calc(100% - 20px);
+      padding: 8px;
+      margin: 8px 0;
       border: 1px solid #ccc;
       border-radius: 4px;
-      box-sizing: border-box; 
+      box-sizing: border-box;
       margin-bottom: 1vh;
     }
     .registration-form button {
@@ -38,21 +39,47 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      margin-top:1vh;
+      margin-top: 1vh;
       text-transform: uppercase;
-      color:#ffffff;
       font-weight: bold;
-      font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
       letter-spacing: 0.5vh;
     }
     .registration-form button:hover {
       background-color: #7c7d80;
     }
+    .title {
+      font-family: 'Franklin Gothic Medium';
+      letter-spacing: 0.5vh;
+      text-transform: uppercase;
+    }
+
+    /* Мобильная версия */
+    @media (max-width: 768px) {
+      .registration-form {
+        width: 80vw; /* Ширина формы увеличивается для мобильных устройств */
+        padding: 15px; /* Уменьшаем внутренние отступы */
+      }
+      .registration-form input {
+        padding: 10px; /* Увеличиваем padding для удобства на мобильных */
+        margin: 10px 0; /* Увеличиваем отступы */
+      }
+      .registration-form button {
+        padding: 12px; /* Увеличиваем padding для кнопки */
+        font-size: 14px; /* Уменьшаем размер шрифта */
+        letter-spacing: 0.3vh; /* Уменьшаем расстояние между буквами */
+      }
+      .title h2 {
+        font-size: 20px; /* Уменьшаем размер заголовка */
+      }
+    }
   </style>
 </head>
 <body>
   <div class="registration-form">
-    <div class="title" style="font-family:'Franklin Gothic Medium'; letter-spacing: 0.5vh; text-transform: uppercase;"><h2>Авторизация</h2></div>
+    <div class="title">
+      <h2>Авторизация</h2>
+    </div>
     <form id="registrationForm">
       <input type="email" placeholder="Логин" required>
       <input type="password" placeholder="Пароль" required>
