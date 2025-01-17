@@ -154,6 +154,20 @@ async def send_main_menu(message: types.Message):
 
 
 @dp.callback_query(lambda call: call.data == 'passport')
+async def handle_accident(call: types.CallbackQuery):
+    await call.answer()  # Ответ на callback_query
+    markup = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text='ОПО "Наименование № 1"', callback_data='opo_1')],
+            [InlineKeyboardButton(text='ОПО "Наименование № 2"', callback_data='opo_2')],
+            [InlineKeyboardButton(text='В главное меню', callback_data='main_menu_return')]
+        ]
+    )
+    await call.message.answer('Выберите опасный производственный объект, (далее - ОПО) на котором необходимо просмотреть информацию', reply_markup=markup)
+
+
+
+@dp.callback_query(lambda call: call.data == 'opo_1')
 async def handle_passport_button(call: types.CallbackQuery):
     # Создаем клавиатуру с кнопкой, открывающей веб-приложение
     markup = types.ReplyKeyboardMarkup(
