@@ -91,10 +91,9 @@ TIME_ZONE = 'Europe/Moscow'
 USE_I18N = True
 USE_TZ = True
 
-# Стандартная модель пользователя
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'myapp.UserProfile'
 
 # Статические файлы (если нужно)
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+#STATICFILES_DIRS = [
+#    BASE_DIR / "static",
+#]
