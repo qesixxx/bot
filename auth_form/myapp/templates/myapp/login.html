@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+<!--
 {% load static %}
+-->
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
@@ -80,7 +82,9 @@
   <div class="registration-form">
     <h2>Авторизация</h2>
     <form method="post">
+      <!--
       {% csrf_token %}
+      -->
       <input type="text" name="login" placeholder="Логин" required>
       <input type="password" name="password" placeholder="Пароль" required>
       <button type="submit">Войти в аккаунт</button>
