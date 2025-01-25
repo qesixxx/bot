@@ -6,17 +6,21 @@
   <title>Список оборудования</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: gost;
       margin: 0;
       padding: 0;
       background-color: #f9f9f9;
+      font-size:1.7vh;
     }
     .item {
-      display: flex;
-      align-items: center;
-      padding: 15px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Тонкая серая полупрозрачная полоска */
-    }
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Тонкая серая полупрозрачная полоска */
+  background-color: #a6c3d686; /* Бежевый цвет фона */
+  border-radius: 8px; /* Закругленные углы */
+  margin-bottom: 10px; /* Отступ между элементами */
+}
     .item img {
       width: 100px;
       height: 100px;
@@ -29,9 +33,27 @@
     }
     .item .description p {
       margin: 5px 0;
-      font-size: 14px;
       color: #333;
     }
+    @font-face {
+      font-family: gost;
+      src: url(pdf/GOST_A.ttf);
+    }
+    a.protected-link {
+    display: inline-block;
+    padding: 8px 16px; /* Внутренние отступы */
+    background-color: #6e8494; /* Зеленый цвет фона */
+    color: white; /* Белый текст */
+    border-radius: 20px; /* Закругленные края */
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease; /* Плавное изменение цвета при наведении */
+  }
+
+  a.protected-link:hover {
+    background-color: #546673; /* Темно-зеленый цвет при наведении */
+  }
   </style>
 </head>
 <body>
@@ -43,7 +65,7 @@
         <p>Позиция: 1-1</p>
         <p>Наименование: Шнек</p>
         <p>Годен до 29.12.24</p>
-        <a href="http://127.0.0.1:8000/login/" class="protected-link">Перейти</a> <!--просто ссылка пока-->
+        <a href="http://127.0.0.1:8000/login/" class="protected-link">ОТКРЫТЬ ПАСПОРТ</a> <!--просто ссылка пока-->
       </div>
     </div>
     <div class="item">
@@ -52,6 +74,7 @@
         <p>Позиция: 1-2</p>
         <p>Наименование: Приемный бункер</p>
         <p>Годен до 29.12.24</p>
+        <a href="http://127.0.0.1:8000/login/" class="protected-link">ОТКРЫТЬ ПАСПОРТ</a>
       </div>
     </div>
     <div class="item">
@@ -60,6 +83,7 @@
         <p>Позиция: 1-3</p>
         <p>Наименование: Шнек</p>
         <p>Годен до 29.12.24</p>
+        <a href="http://127.0.0.1:8000/login/" class="protected-link">ОТКРЫТЬ ПАСПОРТ</a>
       </div>
     </div>
 
