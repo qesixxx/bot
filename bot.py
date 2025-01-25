@@ -14,13 +14,13 @@ import json
 
 
 
-# Инициализация бота и диспетчера
+
 API_TOKEN = '7601003095:AAHPSElCSqC2nWjFD3YKm-s_pD0xJ3V4Hkc'
 bot = Bot(token=API_TOKEN)
 storage = MemoryStorage()  # Хранилище для состояний
 dp = Dispatcher(storage=storage)
 
-# Состояния
+
 class UserStates(StatesGroup):
     WAITING_FOR_FIO = State()
     WAITING_FOR_PASSWORD = State()
@@ -30,10 +30,10 @@ class UserStates(StatesGroup):
 user_data = {}
 
 
-# Функции для работы с файлом пользователей
+
 def load_users_from_file():
     if not os.path.exists('users.json'):
-        # Если файл не существует, создаем его с пустым словарем
+
         with open('users.json', 'w', encoding='utf-8') as file:
             json.dump({}, file)
         return {}
@@ -42,7 +42,7 @@ def load_users_from_file():
         with open('users.json', 'r', encoding='utf-8') as file:
             return json.load(file)
     except json.JSONDecodeError:
-        # Если файл содержит некорректный JSON, возвращаем пустой словарь
+
         return {}
 
 def save_users_to_file(users):
@@ -50,7 +50,7 @@ def save_users_to_file(users):
         json.dump(users, file, ensure_ascii=False, indent=4)
 
 
-# Загружаем данные при старте бота
+
 users = load_users_from_file()
 
 
@@ -58,12 +58,12 @@ users = load_users_from_file()
 async def main(message: types.Message, state: FSMContext):
     user_id = str(message.chat.id)
     if user_id in users:
-        # Если пользователь уже зарегистрирован, пропускаем ввод ФИО
+
         await state.set_state(UserStates.LOGGED_IN)
         await message.reply(f'С возвращением, {users[user_id]["first_name"]} {users[user_id]["last_name"]}!')
         await send_main_menu(message)
     else:
-        # Если пользователь новый, запрашиваем ФИО
+
         await state.set_state(UserStates.WAITING_FOR_FIO)
         await message.reply(f'Здравствуйте, {message.from_user.first_name}! Вы используете бот ПСТ. Для регистрации и прохождения далее введите ФИО.')
 
@@ -71,20 +71,19 @@ async def main(message: types.Message, state: FSMContext):
 async def handle_fio(message: types.Message, state: FSMContext):
     parts = message.text.split()
     if len(parts) >= 3:
-        if all(part.isalpha() for part in parts):  # Проверяем, что все части ФИО состоят из букв
+        if all(part.isalpha() for part in parts):
             first_name = parts[1]
             last_name = parts[0]
             patronymic = parts[2]
 
-            # Сохраняем данные пользователя в user_data
-            user_id = str(message.chat.id)  # Используем строковый ключ
+            user_id = str(message.chat.id)
             user_data[user_id] = {
                 'first_name': first_name,
                 'last_name': last_name,
                 'patronymic': patronymic
             }
 
-            # Логирование
+
             print(f"Данные пользователя {user_id} сохранены в user_data: {user_data[user_id]}")
 
             await state.set_state(UserStates.WAITING_FOR_PASSWORD)
@@ -94,12 +93,12 @@ async def handle_fio(message: types.Message, state: FSMContext):
     else:
         await message.reply('Пожалуйста, введите полное ФИО (фамилия, имя, отчество) через пробел.')
 
-# Обработчик для ввода пароля
+
 @dp.message(StateFilter(UserStates.WAITING_FOR_PASSWORD))
 async def handle_password(message: types.Message, state: FSMContext):
-    user_id = str(message.chat.id)  # Используем строковый ключ
+    user_id = str(message.chat.id)
 
-    # Проверяем, есть ли данные пользователя в user_data
+
     if user_id not in user_data:
         await message.reply('Ошибка: данные пользователя не найдены. Пожалуйста, начните с команды /start.')
         return
@@ -109,36 +108,36 @@ async def handle_password(message: types.Message, state: FSMContext):
         await message.reply('Вы успешно вошли в систему.')
         await state.set_state(UserStates.LOGGED_IN)
 
-        # Сохраняем данные пользователя в файл
-        users[user_id] = user_data[user_id]  # Сохраняем данные из user_data в users
-        save_users_to_file(users)  # Сохраняем в файл
 
-        # Логирование
+        users[user_id] = user_data[user_id]
+        save_users_to_file(users)
+
+
         print(f"Данные пользователя {user_id} сохранены в users.json: {users[user_id]}")
 
-        # Отправляем главное меню
+
         await send_main_menu(message)
     else:
         await message.reply('Обрабатываю запрос . . . ')
         await message.reply('Неверный код доступа.')
 
 async def send_main_menu(message: types.Message):
-    # Путь к вашей картинке
+
     image_path = os.path.join('img', 'menu_photo.jpg')
 
-    # Проверка, существует ли файл
+
     if not os.path.exists(image_path):
         await message.answer("Картинка не найдена!")
         return
 
-    # Создание клавиатуры с кнопками (используем InlineKeyboardBuilder)
+
     builder = InlineKeyboardBuilder()
     builder.row(types.InlineKeyboardButton(text='Перейти на официальный сайт ПСТ', url='https://этпп.рф/'))
     builder.row(types.InlineKeyboardButton(text='Срок эксплуатации по ЭПБ', callback_data='expiry'))
     builder.row(types.InlineKeyboardButton(text='! ! ! Произошла авария ! ! !', callback_data='accident'))
     builder.row(types.InlineKeyboardButton(
         text='Просмотреть паспорт оборудования',
-        callback_data='passport'  # Указываем callback_data для обработки нажатия
+        callback_data='passport'
     ))
 
     markup = builder.as_markup()
@@ -169,21 +168,18 @@ async def handle_accident(call: types.CallbackQuery):
 
 @dp.callback_query(lambda call: call.data == 'opo_1')
 async def handle_passport_button(call: types.CallbackQuery):
-    # Создаем клавиатуру с кнопкой, открывающей веб-приложение
     markup = types.ReplyKeyboardMarkup(
         keyboard=[
             [types.KeyboardButton(text='Открыть список оборудования', web_app=WebAppInfo(url='https://qesixxx.github.io/bot/'))]
         ],
-        resize_keyboard=True  # Опционально: автоматическое изменение размера клавиатуры
+        resize_keyboard=True
     )
 
-    # Отправляем сообщение с клавиатурой
     await call.message.answer('Откройте список оборудования по кнопке ниже или введите идентификатор', reply_markup=markup)
 
-    # Подтверждаем обработку callback-запроса
     await call.answer()
 
-# Обработчик для callback_data='accident'
+
 @dp.callback_query(lambda call: call.data == 'accident')
 async def handle_accident(call: types.CallbackQuery):
     await call.answer()  # Ответ на callback_query
@@ -198,34 +194,34 @@ async def handle_accident(call: types.CallbackQuery):
 
 @dp.callback_query(lambda call: call.data == 'main_menu_return')
 async def handle_main_menu_return(call: types.CallbackQuery):
-    # Создаем объект message из call
+
     message = call.message
-    # Отправляем главное меню
+
     await send_main_menu(message)
 
 
 def get_greeting(patronymic):
-    if patronymic.endswith(('вна', 'чна')):  # Женские отчества
+    if patronymic.endswith(('вна', 'чна')):
         return 'Уважаемая'
-    elif patronymic.endswith(('вич', 'ьич')):  # Мужские отчества
+    elif patronymic.endswith(('вич', 'ьич')):
         return 'Уважаемый'
     else:
-        return 'Уважаемый/Уважаемая'  # Если отчество не удалось определить
+        return 'Уважаемый/Уважаемая'
 
 
 @dp.callback_query(lambda call: call.data == 'first_opo')
 async def handle_first_opo(call: types.CallbackQuery):
-    await call.answer()  # Ответ на callback_query
+    await call.answer()
 
-    # Получаем данные пользователя
+
     user_id = str(call.message.chat.id)
-    user_info = users.get(user_id, {})  # Используем данные из файла
+    user_info = users.get(user_id, {})
 
-    # Определяем пол на основе отчества
+
     patronymic = user_info.get('patronymic', '')
     greeting = get_greeting(patronymic)
 
-    # Формируем сообщение
+
     message_text = (
         f'{greeting}, {user_info.get("first_name", "")} {user_info.get("last_name", "")}!\n\n'
         'Произошла аварийная ситуация.\n'
@@ -246,20 +242,20 @@ async def handle_first_opo(call: types.CallbackQuery):
         ]
     )
 
-    # Отправляем сообщение с кнопкой "Назад"
+
     await call.message.answer(message_text, reply_markup=markup)
 
 
 
 
-# Обработчик для callback_data='back_warning'
+
 @dp.callback_query(lambda call: call.data == 'back_warning')
 async def handle_back_warning(call: types.CallbackQuery):
     await handle_accident(call)
 
 
 
-# Обработчик для callback_data='expiry'
+
 @dp.callback_query(lambda call: call.data == 'expiry')
 async def handle_expiry_button(call: types.CallbackQuery):
     expired_equipment = []
@@ -295,6 +291,6 @@ async def handle_expiry_button(call: types.CallbackQuery):
 
     await bot.send_message(call.message.chat.id, message)
 
-# Запуск бота
+
 if __name__ == '__main__':
     dp.run_polling(bot, skip_updates=True)
