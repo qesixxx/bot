@@ -103,7 +103,7 @@ async def handle_password(message: types.Message, state: FSMContext):
         await message.reply('Ошибка: данные пользователя не найдены. Пожалуйста, начните с команды /start.')
         return
 
-    if message.text == 'password123':
+    if message.text == 'fordemo123':
         await message.reply('Обрабатываю запрос . . . ')
         await message.reply('Вы успешно вошли в систему.')
         await state.set_state(UserStates.LOGGED_IN)
