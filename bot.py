@@ -87,7 +87,7 @@ async def handle_fio(message: types.Message, state: FSMContext):
             print(f"Данные пользователя {user_id} сохранены в user_data: {user_data[user_id]}")
 
             await state.set_state(UserStates.WAITING_FOR_PASSWORD)
-            await message.reply(f'Отлично, {first_name} {last_name}, теперь введите код доступа для взаимодействия с предприятием.')
+            await message.reply(f'Отлично, {first_name} {patronymic}, теперь введите код доступа для взаимодействия с предприятием.')
         else:
             await message.reply('Пожалуйста, введите ФИО, используя только буквы.')
     else:
