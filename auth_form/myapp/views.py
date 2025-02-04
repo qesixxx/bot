@@ -14,7 +14,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             user_login(request, user)
-            return redirect(reverse('user_list'))
+            return redirect(reverse('auth.html'))
         else:
             return render(request, 'myapp/login.html', {'error': 'Неверный логин или пароль'})
 
